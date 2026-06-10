@@ -129,32 +129,34 @@
         .small-note { margin-top: 15px; font-style: italic; color: #b45f2b; }
         footer { background: #cc9c5c; text-align: center; padding: 14px; color: #2d1b0c; }
         
-        /* КНОПКА ВКЛЮЧЕНИЯ МУЗЫКИ - БОЛЬШАЯ И ЗАМЕТНАЯ */
+        /* БОЛЬШАЯ КНОПКА — сделаем её очень заметной */
         .music-play-btn {
             background: linear-gradient(135deg, #e67e22, #f39c12);
             border: none;
-            padding: 16px 32px;
+            padding: 18px 36px;
             border-radius: 60px;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: white;
             cursor: pointer;
-            margin: 20px auto 10px;
+            margin: 25px auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 15px;
             box-shadow: 0 8px 0 #b45f1b;
             transition: 0.05s linear;
             width: 100%;
-            max-width: 280px;
+            max-width: 320px;
+            animation: pulse 1.5s infinite ease-in-out;
         }
-        .music-play-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 4px 0 #b45f1b;
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 8px 0 #b45f1b; }
+            50% { transform: scale(1.02); box-shadow: 0 10px 0 #b45f1b; }
+            100% { transform: scale(1); box-shadow: 0 8px 0 #b45f1b; }
         }
+        .music-play-btn:active { transform: translateY(3px); box-shadow: 0 4px 0 #b45f1b; animation: none; }
         
-        /* Плавающая кнопка звука (маленькая) */
         .sound-toggle-btn {
             position: fixed;
             bottom: 25px;
@@ -178,7 +180,7 @@
             .sound-toggle-btn { width: 48px; height: 48px; bottom: 20px; right: 20px; }
             .sound-toggle-btn i { font-size: 1.5rem; }
             .hero h1 { font-size: 2.3rem; }
-            .music-play-btn { padding: 12px 24px; font-size: 1.1rem; max-width: 240px; }
+            .music-play-btn { padding: 14px 28px; font-size: 1.2rem; max-width: 280px; }
         }
         .toast-msg {
             position: fixed;
@@ -194,6 +196,12 @@
             backdrop-filter: blur(5px);
             pointer-events: none;
             white-space: nowrap;
+        }
+        .music-hint {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: #b45a1f;
         }
     </style>
 </head>
@@ -221,10 +229,13 @@
             А пока просто собирайся в незабываемое путешествие.</p>
         </div>
 
-        <!-- БОЛЬШАЯ КНОПКА ВКЛЮЧЕНИЯ МУЗЫКИ -->
+        <!-- БОЛЬШАЯ ЗАМЕТНАЯ КНОПКА — теперь после текста приглашения -->
         <button id="playMusicBigBtn" class="music-play-btn">
             <i class="fas fa-play"></i> Включить песню <i class="fas fa-music"></i>
         </button>
+        <div class="music-hint">
+            <i class="fas fa-hand-pointer"></i> Нажми сюда, чтобы включить музыку!
+        </div>
 
         <div class="info-block">
             <h3><i class="fas fa-leaf"></i> ГАВАЙСКАЯ ВЕЧЕРНИКА</h3>
@@ -251,7 +262,6 @@
     </footer>
 </div>
 
-<!-- Маленькая плавающая кнопка -->
 <div id="soundToggleBtn" class="sound-toggle-btn" title="Вкл/Выкл звук">
     <i id="soundIcon" class="fas fa-volume-up"></i>
 </div>
@@ -309,51 +319,50 @@
     }
 
     // ========== МУЗЫКА ==========
-    // ПУТЬ К ФАЙЛУ - ПРОВЕРЬТЕ ЧТО ФАЙЛ НАЗЫВАЕТСЯ song.mp3
     const audio = new Audio();
-    audio.src = "song.mp3";  // Файл должен лежать рядом с index.html
+    audio.src = "song.mp3";
     audio.loop = true;
     audio.volume = 0.5;
     
     let isPlaying = false;
     let isMuted = false;
     
-    function startMusic() {
-        if (isPlaying) return;
-        audio.play().then(() => {
-            isPlaying = true;
-            isMuted = false;
-            audio.muted = false;
-            updateIcons();
-            showToast("🎵 С днём рождения! Музыка играет");
-            
-            // Меняем текст кнопки
+    // Главная кнопка: Play / Pause
+    function togglePlayPause() {
+        if (!isPlaying) {
+            audio.play().then(() => {
+                isPlaying = true;
+                const btn = document.getElementById('playMusicBigBtn');
+                btn.innerHTML = '<i class="fas fa-pause"></i> Пауза <i class="fas fa-music"></i>';
+                showToast("🎵 Музыка играет! С днём рождения!");
+                updateMuteIcon();
+            }).catch(err => {
+                console.error("Ошибка:", err);
+                showToast("⚠️ Не удалось включить музыку. Проверьте файл song.mp3");
+            });
+        } else {
+            audio.pause();
+            isPlaying = false;
             const btn = document.getElementById('playMusicBigBtn');
-            if (btn) {
-                btn.innerHTML = '<i class="fas fa-music"></i> Песня играет <i class="fas fa-check"></i>';
-                btn.style.background = "#27ae60";
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-music"></i> Играет ♫';
-                }, 2000);
-            }
-        }).catch(err => {
-            console.error("Ошибка:", err);
-            showToast("⚠️ Не удалось включить музыку. Проверьте, есть ли файл song.mp3");
-        });
+            btn.innerHTML = '<i class="fas fa-play"></i> Включить песню <i class="fas fa-music"></i>';
+            showToast("⏸ Музыка на паузе");
+            updateMuteIcon();
+        }
     }
     
+    // Маленькая кнопка: Mute / Unmute (не останавливает песню)
     function toggleMute() {
         if (!isPlaying) {
-            startMusic();
+            togglePlayPause();
             return;
         }
         audio.muted = !isMuted;
         isMuted = audio.muted;
-        updateIcons();
+        updateMuteIcon();
         showToast(isMuted ? "🔇 Звук выключен" : "🔊 Звук включён");
     }
     
-    function updateIcons() {
+    function updateMuteIcon() {
         const icon = document.getElementById('soundIcon');
         if (!isPlaying || isMuted) {
             icon.className = 'fas fa-volume-mute';
@@ -372,13 +381,13 @@
         setTimeout(() => toast.remove(), 2500);
     }
     
-    // Кнопки
+    // Назначаем кнопки
     const bigPlayBtn = document.getElementById('playMusicBigBtn');
     const smallBtn = document.getElementById('soundToggleBtn');
     
     bigPlayBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        startMusic();
+        togglePlayPause();
     });
     
     smallBtn.addEventListener('click', (e) => {
@@ -394,9 +403,9 @@
         showToast("📍 Открываем карту");
     });
     
-    // Обработка ошибки загрузки MP3
+    // Обработка ошибки файла
     audio.addEventListener('error', () => {
-        showToast("⚠️ Файл song.mp3 не найден! Загрузите его в репозиторий");
+        showToast("⚠️ Файл song.mp3 не найден! Загрузите его в ту же папку");
     });
     
     createBackgroundConfetti();
