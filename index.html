@@ -129,17 +129,17 @@
         .small-note { margin-top: 15px; font-style: italic; color: #b45f2b; }
         footer { background: #cc9c5c; text-align: center; padding: 14px; color: #2d1b0c; }
         
-        /* БОЛЬШАЯ КНОПКА — сделаем её очень заметной */
+        /* БОЛЬШАЯ КНОПКА — СРАЗУ ПОСЛЕ КАЛЕНДАРЯ, ОЧЕНЬ ЗАМЕТНАЯ */
         .music-play-btn {
             background: linear-gradient(135deg, #e67e22, #f39c12);
             border: none;
             padding: 18px 36px;
             border-radius: 60px;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: white;
             cursor: pointer;
-            margin: 25px auto 20px;
+            margin: 20px auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -147,7 +147,7 @@
             box-shadow: 0 8px 0 #b45f1b;
             transition: 0.05s linear;
             width: 100%;
-            max-width: 320px;
+            max-width: 340px;
             animation: pulse 1.5s infinite ease-in-out;
         }
         @keyframes pulse {
@@ -199,9 +199,11 @@
         }
         .music-hint {
             text-align: center;
-            margin-top: 10px;
+            margin-top: -10px;
+            margin-bottom: 15px;
             font-size: 0.75rem;
             color: #b45a1f;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -220,6 +222,14 @@
     </div>
 
     <div class="invitation-content">
+        <!-- 🔥 БОЛЬШАЯ КНОПКА СРАЗУ ПОСЛЕ КАЛЕНДАРЯ 🔥 -->
+        <button id="playMusicBigBtn" class="music-play-btn">
+            <i class="fas fa-play"></i> Включить песню <i class="fas fa-music"></i>
+        </button>
+        <div class="music-hint">
+            <i class="fas fa-hand-pointer"></i> Нажми сюда, чтобы включить музыку! 🎵
+        </div>
+
         <div class="journey-text">
             <p><i class="fas fa-plane-departure"></i> <strong>Представь, что ты летишь на тёплый пляж, где волны, пальмы, песок.</strong><br>
             Главное, что нужно положить в чемодан — <span class="highlight">хорошее настроение</span>.</p>
@@ -227,14 +237,6 @@
             Ведь нам предстоит отправиться в <span class="highlight">кругосветное путешествие</span>. Куда — узнаешь в пути.</p>
             <p><i class="fas fa-hourglass-half"></i> Время скоро скажем.<br>
             А пока просто собирайся в незабываемое путешествие.</p>
-        </div>
-
-        <!-- БОЛЬШАЯ ЗАМЕТНАЯ КНОПКА — теперь после текста приглашения -->
-        <button id="playMusicBigBtn" class="music-play-btn">
-            <i class="fas fa-play"></i> Включить песню <i class="fas fa-music"></i>
-        </button>
-        <div class="music-hint">
-            <i class="fas fa-hand-pointer"></i> Нажми сюда, чтобы включить музыку!
         </div>
 
         <div class="info-block">
