@@ -4,17 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Приглашение на День Рождения | Гавайская вечеринка</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             min-height: 100vh;
             background: linear-gradient(145deg, #0a2f44 0%, #1b4f6e 40%, #ffd966 100%);
@@ -26,8 +19,6 @@
             position: relative;
             overflow-x: hidden;
         }
-
-        /* Волны внизу (атмосфера) */
         .wave-bg {
             position: fixed;
             bottom: 0;
@@ -38,8 +29,6 @@
             pointer-events: none;
             z-index: 1;
         }
-
-        /* КОНФЕТТИ НА ФОНЕ (абсолютные, двигаются при скролле) */
         .confetti-bg {
             position: absolute;
             top: 0;
@@ -59,17 +48,9 @@
             pointer-events: none;
         }
         @keyframes fallRotateBg {
-            0% {
-                transform: translateY(-20vh) rotate(0deg);
-                opacity: 0.9;
-            }
-            100% {
-                transform: translateY(120vh) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(-20vh) rotate(0deg); opacity: 0.9; }
+            100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
         }
-
-        /* основная карточка */
         .invitation-card {
             max-width: 680px;
             width: 100%;
@@ -80,31 +61,19 @@
             overflow: hidden;
             position: relative;
             z-index: 20;
-            transition: transform 0.3s ease;
             animation: floatCard 3s infinite alternate ease-in-out;
         }
-
         @keyframes floatCard {
             0% { transform: translateY(0px); }
             100% { transform: translateY(-8px); }
         }
-
-        /* шапка без старой даты, теперь календарь сверху */
         .hero {
             background: radial-gradient(circle at 20% 30%, #ffe6b0, #ffbc6e);
             padding: 30px 20px 20px;
             text-align: center;
-            position: relative;
             border-bottom: 5px solid #ffb347;
         }
-
-        .hero i {
-            font-size: 3rem;
-            color: #c76904;
-            margin: 0 10px;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
-        }
-
+        .hero i { font-size: 3rem; color: #c76904; margin: 0 10px; }
         .hero h1 {
             font-family: 'Playfair Display', serif;
             font-size: 3.2rem;
@@ -114,18 +83,13 @@
             background-clip: text;
             color: transparent;
             margin: 15px 0 10px;
-            text-shadow: 2px 2px 8px rgba(255,200,100,0.6);
         }
-
-        /* КАЛЕНДАРЬ ВВЕРХУ (вместо date-badge) */
         .calendar-top {
             margin-top: 15px;
-            margin-bottom: 5px;
             background: #fff2e0cc;
             backdrop-filter: blur(4px);
             border-radius: 48px;
             padding: 12px 12px 16px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .calendar-header {
             font-family: 'Playfair Display', serif;
@@ -138,10 +102,6 @@
             justify-content: center;
             gap: 12px;
         }
-        .calendar-header i {
-            font-size: 1.4rem;
-            color: #f39c12;
-        }
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -150,183 +110,33 @@
             padding: 10px 6px;
             border-radius: 36px;
         }
-        .weekday {
-            font-weight: bold;
-            color: #b45a1f;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            background: #ffe2b5;
-            border-radius: 30px;
-            padding: 5px 2px;
-            text-align: center;
-        }
-        .calendar-day {
-            font-weight: 600;
-            padding: 8px 4px;
-            border-radius: 40px;
-            background: #fff5e2;
-            font-size: 0.9rem;
-            transition: 0.1s linear;
-            color: #5d3a1a;
-            text-align: center;
-        }
-        .birthday-day {
-            background: radial-gradient(circle, #ffb347, #ff7e05);
-            color: white;
-            box-shadow: 0 0 0 2px #ffdd99, 0 0 0 4px #ffb347;
-            font-weight: 900;
-            transform: scale(1.02);
-        }
-        .birthday-label {
-            font-size: 0.7rem;
-            display: block;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            color: #fff3bb;
-            margin-top: 3px;
-        }
-        .calendar-note {
-            margin-top: 12px;
-            background: #f7cf9f;
-            display: inline-block;
-            padding: 5px 18px;
-            border-radius: 50px;
-            font-weight: bold;
-            color: #a04000;
-            font-size: 0.85rem;
-        }
-
-        /* контент */
-        .invitation-content {
-            padding: 35px 30px 30px;
-            background: #fef9e6;
-        }
-
-        .journey-text {
-            background: #fff2db;
-            border-radius: 50px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border-left: 12px solid #f1c40f;
-            box-shadow: 0 12px 20px rgba(0,0,0,0.05);
-            font-size: 1.18rem;
-            line-height: 1.5;
-            color: #2c3e2f;
-            font-weight: 500;
-        }
-
-        .journey-text p {
-            margin-bottom: 20px;
-        }
-
-        .journey-text i.fa-plane, .journey-text i.fa-umbrella-beach {
-            color: #f39c12;
-            margin-right: 8px;
-        }
-
-        .highlight {
-            font-weight: bold;
-            color: #d35400;
-            background: linear-gradient(120deg, #ffe8c7, transparent);
-            padding: 0 6px;
-            border-radius: 20px;
-        }
-
-        /* Блок адреса */
-        .info-block {
-            background: #ffe3b5;
-            border-radius: 40px;
-            padding: 20px;
-            text-align: center;
-            margin-top: 20px;
-            box-shadow: 0 8px 0 #ca9622;
-            transition: all 0.2s;
-        }
-
-        .info-block h3 {
-            font-size: 1.8rem;
-            font-family: 'Playfair Display', serif;
-            color: #a04000;
-            margin-bottom: 10px;
-        }
-
-        .address-clickable {
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-        }
-        .address-clickable:active {
-            transform: scale(0.97);
-        }
-        .address {
-            font-size: 1.3rem;
-            font-weight: bold;
-            background: white;
-            display: inline-block;
-            padding: 10px 30px;
-            border-radius: 60px;
-            margin: 10px 0;
-            box-shadow: inset 0 0 0 2px #f7b05e, 0 5px 12px rgba(0,0,0,0.1);
-        }
-        .address i {
-            margin-right: 10px;
-            color: #e67e22;
-        }
-        .city-note {
-            font-size: 0.7rem;
-            color: #b45a1f;
-            margin-top: -5px;
-            margin-bottom: 8px;
-            font-style: italic;
-        }
-        .map-hint {
-            font-size: 0.8rem;
-            margin-top: 8px;
-            color: #d35400;
-            font-weight: 600;
-        }
-        .small-note {
-            margin-top: 15px;
-            font-style: italic;
-            color: #b45f2b;
-        }
-
-        /* музыкальный хинт в начале */
-        .music-hint-banner {
-            background: #2c3e50cc;
-            backdrop-filter: blur(8px);
-            color: #ffefc0;
-            padding: 8px 18px;
-            border-radius: 60px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            display: inline-block;
-            margin-bottom: 18px;
-            letter-spacing: 0.5px;
-            border: 1px solid #ffcf7a;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        .music-hint-banner i {
-            margin-right: 8px;
-            font-size: 0.9rem;
-        }
-
-        footer {
-            background: #cc9c5c;
-            text-align: center;
-            padding: 14px;
-            color: #2d1b0c;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        /* ПЛАВАЮЩАЯ КНОПКА ОТКЛЮЧЕНИЯ ЗВУКА (прикреплена к экрану) */
+        .weekday { font-weight: bold; color: #b45a1f; font-size: 0.75rem; background: #ffe2b5; border-radius: 30px; padding: 5px 2px; text-align: center; }
+        .calendar-day { font-weight: 600; padding: 8px 4px; border-radius: 40px; background: #fff5e2; font-size: 0.9rem; text-align: center; color: #5d3a1a; }
+        .birthday-day { background: radial-gradient(circle, #ffb347, #ff7e05); color: white; box-shadow: 0 0 0 2px #ffdd99; transform: scale(1.02); }
+        .birthday-label { font-size: 0.7rem; display: block; font-weight: bold; color: #fff3bb; margin-top: 3px; }
+        .calendar-note { margin-top: 12px; background: #f7cf9f; display: inline-block; padding: 5px 18px; border-radius: 50px; font-weight: bold; color: #a04000; font-size: 0.85rem; }
+        .invitation-content { padding: 35px 30px 30px; background: #fef9e6; }
+        .journey-text { background: #fff2db; border-radius: 50px; padding: 25px; margin-bottom: 30px; border-left: 12px solid #f1c40f; font-size: 1.18rem; line-height: 1.5; color: #2c3e2f; }
+        .journey-text p { margin-bottom: 20px; }
+        .highlight { font-weight: bold; color: #d35400; background: linear-gradient(120deg, #ffe8c7, transparent); padding: 0 6px; border-radius: 20px; }
+        .info-block { background: #ffe3b5; border-radius: 40px; padding: 20px; text-align: center; margin-top: 20px; box-shadow: 0 8px 0 #ca9622; }
+        .info-block h3 { font-size: 1.8rem; font-family: 'Playfair Display', serif; color: #a04000; }
+        .address-clickable { cursor: pointer; }
+        .address { font-size: 1.3rem; font-weight: bold; background: white; display: inline-block; padding: 10px 30px; border-radius: 60px; margin: 10px 0; box-shadow: inset 0 0 0 2px #f7b05e; }
+        .address i { margin-right: 10px; color: #e67e22; }
+        .city-note { font-size: 0.7rem; color: #b45a1f; font-style: italic; }
+        .map-hint { font-size: 0.8rem; margin-top: 8px; color: #d35400; font-weight: 600; }
+        .small-note { margin-top: 15px; font-style: italic; color: #b45f2b; }
+        footer { background: #cc9c5c; text-align: center; padding: 14px; color: #2d1b0c; }
+        
+        /* Плавающая кнопка звука */
         .sound-toggle-btn {
             position: fixed;
             bottom: 25px;
             right: 25px;
             width: 56px;
             height: 56px;
-            background: #2c3e50;
+            background: rgba(44, 62, 80, 0.9);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -334,56 +144,19 @@
             cursor: pointer;
             z-index: 10000;
             box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-            transition: all 0.2s ease;
             border: 2px solid #ffb347;
-            backdrop-filter: blur(4px);
-            background: rgba(44, 62, 80, 0.9);
         }
-        .sound-toggle-btn i {
-            font-size: 1.8rem;
-            color: #ffd966;
-            transition: 0.1s;
-        }
-        .sound-toggle-btn:active {
-            transform: scale(0.92);
-        }
-        .sound-toggle-btn:hover {
-            background: #1e2f3a;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-        }
-        /* для мобильных – чуть меньше */
+        .sound-toggle-btn i { font-size: 1.8rem; color: #ffd966; }
+        .sound-toggle-btn:active { transform: scale(0.92); }
         @media (max-width: 600px) {
-            .sound-toggle-btn {
-                width: 48px;
-                height: 48px;
-                bottom: 20px;
-                right: 20px;
-            }
-            .sound-toggle-btn i {
-                font-size: 1.5rem;
-            }
-        }
-
-        /* адаптация остальных блоков */
-        @media (max-width: 600px) {
-            body { padding: 12px; }
+            .sound-toggle-btn { width: 48px; height: 48px; bottom: 20px; right: 20px; }
+            .sound-toggle-btn i { font-size: 1.5rem; }
             .hero h1 { font-size: 2.3rem; }
-            .invitation-content { padding: 25px 18px; }
-            .journey-text { font-size: 1rem; }
-            .address { font-size: 1rem; padding: 8px 20px; }
-            .hero i { font-size: 2.4rem; }
             .calendar-day { padding: 5px 2px; font-size: 0.75rem; }
-            .weekday { font-size: 0.65rem; }
-            .calendar-header { font-size: 1.2rem; }
-            .birthday-label { font-size: 0.6rem; }
-        }
-
-        @media (min-width: 700px) {
-            .invitation-card { max-width: 620px; }
         }
         .toast-msg {
             position: fixed;
-            bottom: 30px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
             background: #2c3e50e6;
@@ -394,8 +167,18 @@
             z-index: 10001;
             backdrop-filter: blur(5px);
             pointer-events: none;
-            font-weight: 600;
             white-space: nowrap;
+        }
+        .music-hint-banner {
+            background: #2c3e50cc;
+            backdrop-filter: blur(8px);
+            color: #ffefc0;
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 18px;
+            border: 1px solid #ffcf7a;
         }
     </style>
 </head>
@@ -410,43 +193,33 @@
         <i class="fas fa-sun"></i>
         <i class="fas fa-cocktail"></i>
         <h1>ГАВАЙСКАЯ ВЕЧЕРИНКА</h1>
-        
-        <!-- КАЛЕНДАРЬ НАВЕРХУ вместо старой надписи 21 июня -->
         <div class="calendar-top" id="calendarTop"></div>
     </div>
 
     <div class="invitation-content">
-        <!-- Легкий баннер-подсказка про музыку -->
         <div style="text-align: center; margin-bottom: 20px;">
             <div class="music-hint-banner">
-                <i class="fas fa-hand-pointer"></i> Нажми в любом месте — заиграет «С днём рождения» (Ирина Аллегрова)
+                <i class="fas fa-music"></i> Нажми на 🎵 кнопку справа внизу, чтобы включить песню!
             </div>
         </div>
 
         <div class="journey-text">
             <p><i class="fas fa-plane-departure"></i> <strong>Представь, что ты летишь на тёплый пляж, где волны, пальмы, песок.</strong><br>
             Главное, что нужно положить в чемодан — <span class="highlight">хорошее настроение</span>.</p>
-            
             <p><i class="fas fa-champagne-glasses"></i> <strong>21 июня</strong> приготовьтесь весело отпраздновать мой день рождения!<br>
             Ведь нам предстоит отправиться в <span class="highlight">кругосветное путешествие</span>. Куда — узнаешь в пути.</p>
-            
             <p><i class="fas fa-hourglass-half"></i> Время скоро скажем.<br>
             А пока просто собирайся в незабываемое путешествие.</p>
         </div>
 
-        <!-- Блок адреса: мкр. Семхоз, ул. Железнодорожная 12 -->
         <div class="info-block">
             <h3><i class="fas fa-leaf"></i> ГАВАЙСКАЯ ВЕЧЕРНИКА</h3>
             <div id="addressBlock" class="address-clickable">
                 <div class="address">
                     <i class="fas fa-location-dot"></i> мкр. Семхоз, ул. Железнодорожная 12
                 </div>
-                <div class="city-note">
-                    <i class="fas fa-map-pin"></i> (г. Сергиев Посад)
-                </div>
-                <div class="map-hint">
-                    <i class="fas fa-map-marked-alt"></i> Нажми на адрес — откроются Яндекс.Карты
-                </div>
+                <div class="city-note"><i class="fas fa-map-pin"></i> (г. Сергиев Посад)</div>
+                <div class="map-hint"><i class="fas fa-map-marked-alt"></i> Нажми на адрес — откроются Яндекс.Карты</div>
             </div>
             <div class="small-note">
                 <i class="fas fa-umbrella-beach"></i> Дресс-код: цветочные принты / панамы / алоха!
@@ -454,7 +227,7 @@
         </div>
 
         <div style="text-align: center; margin-top: 25px;">
-            <div class="music-status" style="background:#f7e3b2; display:inline-block; padding:6px 20px; border-radius:50px; color:#9b4b1a;">
+            <div style="background:#f7e3b2; display:inline-block; padding:6px 20px; border-radius:50px; color:#9b4b1a;">
                 <i class="fas fa-music"></i> ♪ Ирина Аллегрова — С днём рождения ♪
             </div>
         </div>
@@ -464,224 +237,155 @@
     </footer>
 </div>
 
-<!-- Плавающая кнопка отключения/включения звука (прикреплена к экрану) -->
 <div id="soundToggleBtn" class="sound-toggle-btn" title="Вкл/Выкл звук">
     <i id="soundIcon" class="fas fa-volume-up"></i>
 </div>
 
 <script>
-    // ======================= 1. КОНФЕТТИ НА ФОНЕ (привязаны к прокрутке) =======================
+    // Конфетти
     function createBackgroundConfetti() {
         const container = document.getElementById('confettiBg');
         if (!container) return;
-        const colors = ['#ffd966', '#ff9966', '#ff66b5', '#66ffcc', '#ffaa44', '#ff4d4d', '#f4d03f', '#2ecc71', '#f39c12', '#e84393', '#f1c40f', '#e67e22'];
-        for (let i = 0; i < 280; i++) {
+        const colors = ['#ffd966', '#ff9966', '#ff66b5', '#66ffcc', '#ffaa44', '#ff4d4d', '#f4d03f', '#2ecc71', '#f39c12', '#e84393'];
+        for (let i = 0; i < 220; i++) {
             let conf = document.createElement('div');
             conf.classList.add('confetti-piece');
-            let size = Math.random() * 15 + 5;
-            conf.style.width = size + 'px';
-            conf.style.height = size + 'px';
+            conf.style.width = (Math.random() * 14 + 5) + 'px';
+            conf.style.height = conf.style.width;
             conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             conf.style.left = Math.random() * 100 + '%';
             conf.style.top = Math.random() * 100 + '%';
-            const duration = Math.random() * 6 + 4;
-            conf.style.animationDuration = duration + 's';
+            conf.style.animationDuration = Math.random() * 6 + 4 + 's';
             conf.style.animationDelay = Math.random() * 8 + 's';
             conf.style.borderRadius = Math.random() > 0.6 ? '50%' : '0%';
-            conf.style.opacity = Math.random() * 0.7 + 0.4;
             container.appendChild(conf);
         }
         setInterval(() => {
-            for (let i = 0; i < 7; i++) {
+            for (let i = 0; i < 6; i++) {
                 let conf = document.createElement('div');
                 conf.classList.add('confetti-piece');
-                let size = Math.random() * 14 + 5;
-                conf.style.width = size + 'px';
-                conf.style.height = size + 'px';
+                conf.style.width = (Math.random() * 14 + 5) + 'px';
+                conf.style.height = conf.style.width;
                 conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 conf.style.left = Math.random() * 100 + '%';
                 conf.style.top = '-5%';
-                const dur = Math.random() * 5 + 4;
-                conf.style.animationDuration = dur + 's';
-                conf.style.animationDelay = '0s';
+                conf.style.animationDuration = Math.random() * 5 + 4 + 's';
                 conf.style.borderRadius = Math.random() > 0.6 ? '50%' : '0%';
                 container.appendChild(conf);
-                setTimeout(() => { if(conf && conf.remove) conf.remove(); }, 9000);
+                setTimeout(() => conf.remove(), 9000);
             }
-        }, 2400);
+        }, 2500);
     }
 
-    // ======================= 2. КАЛЕНДАРЬ (ИЮНЬ 2026, 21 число с короткой надписью "🎉 ДР 🎉") =======================
+    // Календарь
     function buildCalendarTop() {
         const container = document.getElementById('calendarTop');
         if (!container) return;
         const weekdays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
-        const daysInJune = 30;
-        let calendarHTML = `
-            <div class="calendar-header">
-                <i class="fas fa-calendar-alt"></i> ИЮНЬ 2026
-                <i class="fas fa-umbrella-beach"></i>
-            </div>
-            <div class="calendar-grid">
-        `;
-        weekdays.forEach(day => {
-            calendarHTML += `<div class="weekday">${day}</div>`;
-        });
-        for (let d = 1; d <= daysInJune; d++) {
-            let extraClass = '';
-            let innerLabel = '';
-            if (d === 21) {
-                extraClass = 'birthday-day';
-                innerLabel = `<span class="birthday-label">🎉 ДР 🎉</span>`;
-            }
-            calendarHTML += `
-                <div class="calendar-day ${extraClass}">
-                    <span class="day-number">${d}</span>
-                    ${innerLabel}
-                </div>
-            `;
+        let html = `<div class="calendar-header"><i class="fas fa-calendar-alt"></i> ИЮНЬ 2026 <i class="fas fa-umbrella-beach"></i></div><div class="calendar-grid">`;
+        weekdays.forEach(day => { html += `<div class="weekday">${day}</div>`; });
+        for (let d = 1; d <= 30; d++) {
+            let extra = (d === 21) ? 'birthday-day' : '';
+            let label = (d === 21) ? '<span class="birthday-label">🎉 ДР 🎉</span>' : '';
+            html += `<div class="calendar-day ${extra}"><span class="day-number">${d}</span>${label}</div>`;
         }
-        calendarHTML += `</div><div class="calendar-note"><i class="fas fa-star"></i> Самый яркий праздник в году! <i class="fas fa-gift"></i></div>`;
-        container.innerHTML = calendarHTML;
-        
-        const birthdayElem = container.querySelector('.birthday-day');
-        if (birthdayElem) {
-            setInterval(() => {
-                if (birthdayElem) {
-                    birthdayElem.style.transform = 'scale(1.02)';
-                    setTimeout(() => { if(birthdayElem) birthdayElem.style.transform = 'scale(1)'; }, 400);
-                }
-            }, 1600);
-        }
+        html += `</div><div class="calendar-note"><i class="fas fa-star"></i> Самый яркий праздник в году! <i class="fas fa-gift"></i></div>`;
+        container.innerHTML = html;
     }
 
-    // ======================= 3. МУЗЫКА (автозапуск + клик везде + кнопка отключения звука) =======================
+    // МУЗЫКА — исправлено для телефонов
     const audio = new Audio();
-    // Путь к файлу (пользовательский)
-    audio.src = "C:\\Users\\masle\\Downloads\\Irina_Allegrova_-_S_dnjom_rozhdeniya_62687889.mp3";
+    // ВАЖНО: замените этот путь на правильный!
+    audio.src = "song.mp3";  // ИЛИ ваша ссылка на MP3
     audio.loop = true;
-    audio.volume = 0.55;
-    let musicPlaying = false;
-    let soundMuted = false;   // состояние звука (выключен/включен)
+    audio.volume = 0.5;
     
-    // Функция запуска/остановки самой музыки (play/pause) — старт только по взаимодействию
-    function startMusic() {
-        if (musicPlaying) return Promise.resolve();
-        return audio.play().then(() => {
-            musicPlaying = true;
-            console.log("Музыка Ирины Аллегровой запущена");
-            showToast("🎶 С днём рождения! Звучит любимая песня", 2000);
+    let isAudioReady = false;
+    let isMuted = false;
+    
+    function initAudioAndPlay() {
+        if (isAudioReady) return;
+        audio.play().then(() => {
+            isAudioReady = true;
+            audio.muted = false;
+            isMuted = false;
+            updateIcon();
+            showToast("🎵 Музыка играет! С днём рождения!");
         }).catch(err => {
-            console.warn("Автовоспроизведение заблокировано:", err);
-            showToast("🔊 Нажми в любом месте для включения музыки", 2500);
+            console.log("Нужно явное действие для запуска");
+            showToast("🔊 Нажми на кнопку с нотой, чтобы включить песню!");
         });
     }
     
-    // Функция для mute/unmute (не останавливает музыку, просто выключает звук)
-    function toggleMute() {
-        if (!musicPlaying) {
-            // если музыка ещё не играет, сначала запускаем её, потом уже mute (но чтобы кнопка корректно работала)
-            startMusic().then(() => {
-                // после старта применяем mute
-                audio.muted = !soundMuted;
-                soundMuted = audio.muted;
-                updateSoundIcon();
-                showToast(soundMuted ? "🔇 Звук выключен" : "🔊 Звук включён", 1200);
-            }).catch(() => {});
-            return;
+    function toggleSound() {
+        if (!isAudioReady) {
+            // Первый запуск
+            audio.play().then(() => {
+                isAudioReady = true;
+                audio.muted = false;
+                isMuted = false;
+                updateIcon();
+                showToast("🎵 Музыка включена!");
+            }).catch(err => {
+                showToast("⚠️ Нажми ещё раз, если не работает");
+            });
+        } else {
+            // Уже играет — просто mute/unmute
+            audio.muted = !isMuted;
+            isMuted = audio.muted;
+            updateIcon();
+            showToast(isMuted ? "🔇 Звук выключен" : "🔊 Звук включён");
         }
-        // если музыка уже играет
-        audio.muted = !soundMuted;
-        soundMuted = audio.muted;
-        updateSoundIcon();
-        showToast(soundMuted ? "🔇 Звук выключен" : "🔊 Звук включён", 1200);
     }
     
-    function updateSoundIcon() {
+    function updateIcon() {
         const icon = document.getElementById('soundIcon');
-        if (soundMuted) {
+        if (!isAudioReady || isMuted) {
             icon.className = 'fas fa-volume-mute';
         } else {
             icon.className = 'fas fa-volume-up';
         }
     }
     
-    // Глобальный обработчик для первого запуска музыки (по клику/тапу)
-    let musicInitiated = false;
-    const globalPlayHandler = () => {
-        if (!musicPlaying && !musicInitiated) {
-            musicInitiated = true;
-            startMusic().then(() => {
-                // при успешном старте синхронизируем состояние кнопки (звук не muted по умолчанию)
-                if (soundMuted) {
-                    // если вдруг было включено muted до старта, сбросим
-                    audio.muted = false;
-                    soundMuted = false;
-                    updateSoundIcon();
-                }
-            }).catch(() => {});
-        }
-    };
-    
-    document.body.addEventListener('click', globalPlayHandler);
-    document.body.addEventListener('touchstart', globalPlayHandler);
-    
-    // Кнопка отключения звука (прикреплена к экрану)
-    const soundBtn = document.getElementById('soundToggleBtn');
-    if (soundBtn) {
-        soundBtn.addEventListener('click', (e) => {
-            e.stopPropagation();  // чтобы не триггерить глобальный запуск повторно
-            toggleMute();
-        });
-    }
-    
-    // Обработка ошибки загрузки файла
-    audio.addEventListener('error', (e) => {
-        console.error("Файл не найден:", audio.src);
-        showToast("⚠️ Не найден mp3-файл с песней, проверьте путь к треку", 4500);
-    });
-    
-    // Попытка автостарта музыки при загрузке (тихая, но браузер заблокирует, но попробуем)
-    document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => {
-            // тихо пытаемся, но только если не было взаимодействия
-            if (!musicPlaying && !musicInitiated) {
-                startMusic().catch(() => {}); // если заблокирует, ничего страшного
-            }
-        }, 300);
-    });
-    
-    function showToast(msg, duration = 2500) {
-        let existing = document.querySelector('.toast-msg');
-        if (existing) existing.remove();
+    function showToast(msg) {
+        let old = document.querySelector('.toast-msg');
+        if(old) old.remove();
         let toast = document.createElement('div');
         toast.className = 'toast-msg';
         toast.innerText = msg;
         document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
+    
+    // Кнопка
+    const soundBtn = document.getElementById('soundToggleBtn');
+    soundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleSound();
+    });
+    
+    // Авто-попытка при загрузке (на телефоне не сработает, но пусть будет)
+    window.addEventListener('load', () => {
         setTimeout(() => {
-            if (toast) toast.style.opacity = '0';
-            setTimeout(() => { if (toast && toast.remove) toast.remove(); }, 500);
-        }, duration);
-    }
-
-    // ======================= 4. АДРЕС (мкр. Семхоз, ул. Железнодорожная 12) =======================
+            if (!isAudioReady) initAudioAndPlay();
+        }, 500);
+    });
+    
+    // Адрес
     const addressBlock = document.getElementById('addressBlock');
-    const fullAddressForMap = "микрорайон Семхоз, улица Железнодорожная 12, Сергиев Посад, Московская область, Россия";
-    const yandexUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(fullAddressForMap)}&z=18`;
-    if (addressBlock) {
-        addressBlock.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.open(yandexUrl, '_blank');
-            showToast("📍 Открываем карту: мкр. Семхоз, ул. Железнодорожная 12", 1800);
-        });
-        addressBlock.style.cursor = 'pointer';
-    }
-
-    // ======================= ИНИЦИАЛИЗАЦИЯ =======================
+    const fullAddress = "микрорайон Семхоз, улица Железнодорожная 12, Сергиев Посад, Московская область, Россия";
+    addressBlock.addEventListener('click', () => {
+        window.open(`https://yandex.ru/maps/?text=${encodeURIComponent(fullAddress)}&z=18`, '_blank');
+        showToast("📍 Открываем карту");
+    });
+    
     createBackgroundConfetti();
     buildCalendarTop();
     
-    console.log("Полная версия: календарь сверху, адрес мкр. Семхоз, ул. Железнодорожная 12, плавающая кнопка отключения звука прикреплена к экрану.");
+    // Обработка ошибки файла
+    audio.addEventListener('error', () => {
+        showToast("⚠️ Файл с песней не найден. Положите song.mp3 рядом с index.html");
+    });
 </script>
 </body>
 </html>
