@@ -129,7 +129,32 @@
         .small-note { margin-top: 15px; font-style: italic; color: #b45f2b; }
         footer { background: #cc9c5c; text-align: center; padding: 14px; color: #2d1b0c; }
         
-        /* Плавающая кнопка звука */
+        /* КНОПКА ВКЛЮЧЕНИЯ МУЗЫКИ - БОЛЬШАЯ И ЗАМЕТНАЯ */
+        .music-play-btn {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            margin: 20px auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 0 #b45f1b;
+            transition: 0.05s linear;
+            width: 100%;
+            max-width: 280px;
+        }
+        .music-play-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 4px 0 #b45f1b;
+        }
+        
+        /* Плавающая кнопка звука (маленькая) */
         .sound-toggle-btn {
             position: fixed;
             bottom: 25px;
@@ -148,11 +173,12 @@
         }
         .sound-toggle-btn i { font-size: 1.8rem; color: #ffd966; }
         .sound-toggle-btn:active { transform: scale(0.92); }
+        
         @media (max-width: 600px) {
             .sound-toggle-btn { width: 48px; height: 48px; bottom: 20px; right: 20px; }
             .sound-toggle-btn i { font-size: 1.5rem; }
             .hero h1 { font-size: 2.3rem; }
-            .calendar-day { padding: 5px 2px; font-size: 0.75rem; }
+            .music-play-btn { padding: 12px 24px; font-size: 1.1rem; max-width: 240px; }
         }
         .toast-msg {
             position: fixed;
@@ -168,17 +194,6 @@
             backdrop-filter: blur(5px);
             pointer-events: none;
             white-space: nowrap;
-        }
-        .music-hint-banner {
-            background: #2c3e50cc;
-            backdrop-filter: blur(8px);
-            color: #ffefc0;
-            padding: 8px 18px;
-            border-radius: 60px;
-            font-size: 0.8rem;
-            display: inline-block;
-            margin-bottom: 18px;
-            border: 1px solid #ffcf7a;
         }
     </style>
 </head>
@@ -197,12 +212,6 @@
     </div>
 
     <div class="invitation-content">
-        <div style="text-align: center; margin-bottom: 20px;">
-            <div class="music-hint-banner">
-                <i class="fas fa-music"></i> Нажми на 🎵 кнопку справа внизу, чтобы включить песню!
-            </div>
-        </div>
-
         <div class="journey-text">
             <p><i class="fas fa-plane-departure"></i> <strong>Представь, что ты летишь на тёплый пляж, где волны, пальмы, песок.</strong><br>
             Главное, что нужно положить в чемодан — <span class="highlight">хорошее настроение</span>.</p>
@@ -211,6 +220,11 @@
             <p><i class="fas fa-hourglass-half"></i> Время скоро скажем.<br>
             А пока просто собирайся в незабываемое путешествие.</p>
         </div>
+
+        <!-- БОЛЬШАЯ КНОПКА ВКЛЮЧЕНИЯ МУЗЫКИ -->
+        <button id="playMusicBigBtn" class="music-play-btn">
+            <i class="fas fa-play"></i> Включить песню <i class="fas fa-music"></i>
+        </button>
 
         <div class="info-block">
             <h3><i class="fas fa-leaf"></i> ГАВАЙСКАЯ ВЕЧЕРНИКА</h3>
@@ -226,7 +240,7 @@
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 25px;">
+        <div style="text-align: center; margin-top: 20px;">
             <div style="background:#f7e3b2; display:inline-block; padding:6px 20px; border-radius:50px; color:#9b4b1a;">
                 <i class="fas fa-music"></i> ♪ Ирина Аллегрова — С днём рождения ♪
             </div>
@@ -237,6 +251,7 @@
     </footer>
 </div>
 
+<!-- Маленькая плавающая кнопка -->
 <div id="soundToggleBtn" class="sound-toggle-btn" title="Вкл/Выкл звук">
     <i id="soundIcon" class="fas fa-volume-up"></i>
 </div>
@@ -293,54 +308,54 @@
         container.innerHTML = html;
     }
 
-    // МУЗЫКА — исправлено для телефонов
+    // ========== МУЗЫКА ==========
+    // ПУТЬ К ФАЙЛУ - ПРОВЕРЬТЕ ЧТО ФАЙЛ НАЗЫВАЕТСЯ song.mp3
     const audio = new Audio();
-    // ВАЖНО: замените этот путь на правильный!
-    audio.src = "song.mp3";  // ИЛИ ваша ссылка на MP3
+    audio.src = "song.mp3";  // Файл должен лежать рядом с index.html
     audio.loop = true;
     audio.volume = 0.5;
     
-    let isAudioReady = false;
+    let isPlaying = false;
     let isMuted = false;
     
-    function initAudioAndPlay() {
-        if (isAudioReady) return;
+    function startMusic() {
+        if (isPlaying) return;
         audio.play().then(() => {
-            isAudioReady = true;
-            audio.muted = false;
+            isPlaying = true;
             isMuted = false;
-            updateIcon();
-            showToast("🎵 Музыка играет! С днём рождения!");
+            audio.muted = false;
+            updateIcons();
+            showToast("🎵 С днём рождения! Музыка играет");
+            
+            // Меняем текст кнопки
+            const btn = document.getElementById('playMusicBigBtn');
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-music"></i> Песня играет <i class="fas fa-check"></i>';
+                btn.style.background = "#27ae60";
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-music"></i> Играет ♫';
+                }, 2000);
+            }
         }).catch(err => {
-            console.log("Нужно явное действие для запуска");
-            showToast("🔊 Нажми на кнопку с нотой, чтобы включить песню!");
+            console.error("Ошибка:", err);
+            showToast("⚠️ Не удалось включить музыку. Проверьте, есть ли файл song.mp3");
         });
     }
     
-    function toggleSound() {
-        if (!isAudioReady) {
-            // Первый запуск
-            audio.play().then(() => {
-                isAudioReady = true;
-                audio.muted = false;
-                isMuted = false;
-                updateIcon();
-                showToast("🎵 Музыка включена!");
-            }).catch(err => {
-                showToast("⚠️ Нажми ещё раз, если не работает");
-            });
-        } else {
-            // Уже играет — просто mute/unmute
-            audio.muted = !isMuted;
-            isMuted = audio.muted;
-            updateIcon();
-            showToast(isMuted ? "🔇 Звук выключен" : "🔊 Звук включён");
+    function toggleMute() {
+        if (!isPlaying) {
+            startMusic();
+            return;
         }
+        audio.muted = !isMuted;
+        isMuted = audio.muted;
+        updateIcons();
+        showToast(isMuted ? "🔇 Звук выключен" : "🔊 Звук включён");
     }
     
-    function updateIcon() {
+    function updateIcons() {
         const icon = document.getElementById('soundIcon');
-        if (!isAudioReady || isMuted) {
+        if (!isPlaying || isMuted) {
             icon.className = 'fas fa-volume-mute';
         } else {
             icon.className = 'fas fa-volume-up';
@@ -357,18 +372,18 @@
         setTimeout(() => toast.remove(), 2500);
     }
     
-    // Кнопка
-    const soundBtn = document.getElementById('soundToggleBtn');
-    soundBtn.addEventListener('click', (e) => {
+    // Кнопки
+    const bigPlayBtn = document.getElementById('playMusicBigBtn');
+    const smallBtn = document.getElementById('soundToggleBtn');
+    
+    bigPlayBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        toggleSound();
+        startMusic();
     });
     
-    // Авто-попытка при загрузке (на телефоне не сработает, но пусть будет)
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            if (!isAudioReady) initAudioAndPlay();
-        }, 500);
+    smallBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMute();
     });
     
     // Адрес
@@ -379,13 +394,13 @@
         showToast("📍 Открываем карту");
     });
     
+    // Обработка ошибки загрузки MP3
+    audio.addEventListener('error', () => {
+        showToast("⚠️ Файл song.mp3 не найден! Загрузите его в репозиторий");
+    });
+    
     createBackgroundConfetti();
     buildCalendarTop();
-    
-    // Обработка ошибки файла
-    audio.addEventListener('error', () => {
-        showToast("⚠️ Файл с песней не найден. Положите song.mp3 рядом с index.html");
-    });
 </script>
 </body>
 </html>
